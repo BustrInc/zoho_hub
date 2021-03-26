@@ -3,8 +3,9 @@
 ## Buster Notes
 - Setup notes for Buster specifically are located at: https://github.com/BustrInc/bustr/issues/11079.
 - Original Zoho branch: https://github.com/BustrInc/bustr/pull/10320/files
-- You can get available fields for a module by running rails console then something like `ZohoHub.connection.get('settings/fields?module=leads')`
-- In general, you can call any [API methods that aren't included here already](https://www.zoho.com/crm/developer/docs/api/v2/modules-api.html) using `ZohoHub.connection.get/post/delete/put`
+- In general, you can call any [API methods that aren't included here already](https://www.zoho.com/crm/developer/docs/api/v2/modules-api.html) using `ZohoHub.connection.get/post/delete/put`\
+  - Get available modules: `ZohoHub.connection.get 'settings/modules'`
+  - You can get available fields for a module by running rails console then something like `ZohoHub.connection.get('settings/fields?module=leads')`. Just replace 'leads' with the module name
 
 ## Original README
 
