@@ -1,5 +1,13 @@
 # ZohoHub
 
+## Buster Notes
+- Setup notes for Buster specifically are located at: https://github.com/BustrInc/bustr/issues/11079.
+- Original Zoho branch: https://github.com/BustrInc/bustr/pull/10320/files
+- You can get available fields for a module by running rails console then something like `ZohoHub.connection.get('settings/fields?module=leads')`
+- In general, you can call any [API methods that aren't included here already](https://www.zoho.com/crm/developer/docs/api/v2/modules-api.html) using `ZohoHub.connection.get/post/delete/put`
+
+## Original README
+
 [![Build Status](https://travis-ci.com/rikas/zoho_hub.svg?branch=master)](https://travis-ci.com/rikas/zoho_hub)
 [![Gem Version](https://badge.fury.io/rb/zoho_hub.svg)](https://badge.fury.io/rb/zoho_hub)
 
