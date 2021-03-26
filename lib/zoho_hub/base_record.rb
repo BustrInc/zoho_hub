@@ -186,7 +186,7 @@ module ZohoHub
 
       response = build_response(body)
       puts '***** CWIK'
-      puts response.to_s
+      puts response.data.to_s
       response.data.first.dig(:details, :id)
     end
 
