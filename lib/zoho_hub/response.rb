@@ -11,7 +11,7 @@ module ZohoHub
     end
 
     def invalid_token?
-      error_code?('INVALID_TOKEN')
+      error_code?('INVALID_TOKEN') || error_code(57)
     end
 
     def internal_error?
