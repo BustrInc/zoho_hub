@@ -24,7 +24,7 @@ module ZohoHub
 
     DEFAULT_ACCESS_TYPE = 'offline'
 
-    def_delegators :@configuration, :redirect_uri, :client_id, :secret, :api_domain
+    def_delegators :@configuration, :redirect_uri, :client_id, :secret
 
     def initialize(access_type: DEFAULT_ACCESS_TYPE, scopes: DEFAULT_SCOPES)
       @configuration = ZohoHub.configuration
@@ -56,7 +56,7 @@ module ZohoHub
     end
 
     def auth_full_uri
-      Addressable::URI.join(api_domain, AUTH_PATH)
+      Addressable::URI.join(ZohoHub::Configuration::DEFAULT_AUTH_DOMAIN, AUTH_PATH)
     end
 
     def self.refresh_token(refresh_token)
@@ -84,7 +84,7 @@ module ZohoHub
     end
 
     def token_full_uri
-      Addressable::URI.join(api_domain, TOKEN_PATH)
+      Addressable::URI.join(ZohoHub::Configuration::DEFAULT_AUTH_DOMAIN, TOKEN_PATH)
     end
 
     def revoke_refresh_token(refresh_token)

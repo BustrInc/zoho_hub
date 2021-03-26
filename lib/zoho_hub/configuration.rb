@@ -5,7 +5,8 @@ module ZohoHub
     attr_accessor :client_id, :secret, :redirect_uri, :api_domain
     attr_writer :debug
 
-    DEFAULT_API_DOMAIN = 'https://accounts.zoho.eu'
+    DEFAULT_API_DOMAIN = 'https://accounts.zoho.com'
+    DEFAULT_AUTH_DOMAIN = 'https://accounts.zoho.com'
 
     def initialize
       @client_id = ''
