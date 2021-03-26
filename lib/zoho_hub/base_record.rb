@@ -24,7 +24,7 @@ module ZohoHub
     class << self
       def request_path(name = nil)
         @request_path = name if name
-        @request_path ||= module_name
+        @request_path ||= StringUtils.pluralize(StringUtils.demodulize(to_s))
         @request_path
       end
 
@@ -153,7 +153,7 @@ module ZohoHub
       alias exist? exists?
 
       def build_response(body)
-        body.merge!(module_name: module_name.downcase.to_sym) if body.present?
+        body.merge!(module_name: request_path.singularize.downcase.to_sym) if body.present?
         response = Response.new(body)
 
         raise InvalidTokenError, response.msg if response.invalid_token?
@@ -165,10 +165,6 @@ module ZohoHub
         raise RecordInBlueprint, response.msg if response.record_in_blueprint?
 
         response
-      end
-
-      def module_name
-        StringUtils.pluralize(StringUtils.demodulize(to_s))
       end
     end
 
