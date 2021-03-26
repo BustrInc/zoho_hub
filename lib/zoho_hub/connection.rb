@@ -27,7 +27,7 @@ module ZohoHub
     # with the new parameters returned by the refresh method.
     attr_accessor :on_refresh_cb
 
-    DEFAULT_DOMAIN = 'https://www.zohoapis.com'
+    DEFAULT_DOMAIN = 'https://www.zohoapis.eu'
 
     def initialize(access_token:, api_domain: nil, expires_in: 3600, refresh_token: nil)
       @access_token = access_token

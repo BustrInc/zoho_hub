@@ -52,9 +52,6 @@ module ZohoHub
       end
       # data from zohoCRM returned under 'data'
       data = @params[:data] if @params.dig(:data)
-      puts @params.to_s
-      puts '***** CWIK'
-      puts data.to_s
       data || @params
     end
 
