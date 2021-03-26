@@ -48,7 +48,7 @@ module ZohoHub
       # returned under the module name, not 'data'
       if @params.present? && @params[:module_name].present?
         zoho_invoice_data = @params.find{|k,v| k =~ /#{@params[:module_name]}/i}
-        data = zoho_invoice_data[1] if zoho_invoice_data.present?
+        data = Array.wrap(zoho_invoice_data[1]) if zoho_invoice_data.present?
       end
       # data from zohoCRM returned under 'data'
       data = @params[:data] if @params.dig(:data)
