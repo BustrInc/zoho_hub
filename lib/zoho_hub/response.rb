@@ -11,7 +11,7 @@ module ZohoHub
     end
 
     def invalid_token?
-      error_code?('INVALID_TOKEN') || error_code(57)
+      error_code?('INVALID_TOKEN')
     end
 
     def internal_error?
@@ -19,7 +19,7 @@ module ZohoHub
     end
 
     def authentication_failure?
-      error_code?('AUTHENTICATION_FAILURE')
+      error_code?('AUTHENTICATION_FAILURE') || error_code(57)
     end
 
     def invalid_module?
