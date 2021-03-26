@@ -153,7 +153,7 @@ module ZohoHub
       alias exist? exists?
 
       def build_response(body)
-        body.merge!(module_name: StringUtils.pluralize(self.class.to_s.downcase)
+        body.merge!(module_name: StringUtils.pluralize(self.class.to_s.downcase))
         response = Response.new(body)
 
         raise InvalidTokenError, response.msg if response.invalid_token?
