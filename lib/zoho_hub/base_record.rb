@@ -153,6 +153,8 @@ module ZohoHub
       alias exist? exists?
 
       def build_response(body)
+        puts "************ CWIK"
+        puts body.to_json
         response = Response.new(body)
 
         raise InvalidTokenError, response.msg if response.invalid_token?
