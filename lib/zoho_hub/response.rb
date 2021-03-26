@@ -43,7 +43,12 @@ module ZohoHub
     end
 
     def data
+      # data from invoice.zoho.com
+      data = @params[@params[:module_name]]
+      # data from zohoCRM
       data = @params[:data] if @params.dig(:data)
+      puts '***** CWIK'
+      puts data.to_s
       data || @params
     end
 
