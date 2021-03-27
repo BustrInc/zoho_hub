@@ -52,7 +52,7 @@ module ZohoHub
     end
 
     def put(path, params = {})
-      p = {'JSONString': params[:data].first.transform_keys!{|k| k.to_s.downcase }}
+      p = {'JSONString': params[:data].first.transform_keys!{|k| k.to_s.downcase }.to_json}
       log "PUT #{path} with #{p}"
 
       response = with_refresh { adapter.put(path, p) }
@@ -118,7 +118,10 @@ module ZohoHub
         conn.headers = authorization_header if access_token?
         conn.use FaradayMiddleware::EncodeJson
         conn.use FaradayMiddleware::ParseJson
+
         #conn.request :multipart
+        #conn.request :url_encoded
+
         conn.response :json, parser_options: { symbolize_names: true }
         conn.response :logger if ZohoHub.configuration.debug?
         conn.adapter Faraday.default_adapter
