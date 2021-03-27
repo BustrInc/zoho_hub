@@ -52,7 +52,7 @@ module ZohoHub
     end
 
     def put(path, params = {})
-      p = {'JSONString': params[:data].first.transform_keys!{|k| k.to_s.downcase }}
+      p = {'JSONString': params[:data].first.transform_keys!{|k| k.to_s.downcase }.to_json}
       log "PUT #{path} with #{p}"
 
       response = with_refresh { adapter.put(path, p, {'Content-Type'=>'application/x-www-form-urlencoded'}) }
