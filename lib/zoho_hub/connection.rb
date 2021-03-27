@@ -52,9 +52,10 @@ module ZohoHub
     end
 
     def put(path, params = {})
-      log "PUT #{path} with #{params}"
+      p = {'JSONString': params[:data]}
+      log "PUT #{path} with #{p}"
 
-      response = with_refresh { adapter.put(path, {'JSONString': params[:data]}) }
+      response = with_refresh { adapter.put(path, p) }
       response.body
     end
 
