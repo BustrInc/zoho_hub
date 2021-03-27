@@ -8,37 +8,37 @@ module ZohoHub
     end
 
     module ClassMethods
-      def get(path, params = {})
-        ZohoHub.connection.get(path, params)
+      def get(path, params = {}, use_zoho_invoice=false)
+        ZohoHub.connection.get(path, params, use_zoho_invoice)
       end
 
-      def post(path, params = {})
-        ZohoHub.connection.post(path, params)
+      def post(path, params = {}, use_zoho_invoice=false)
+        ZohoHub.connection.post(path, params, use_zoho_invoice)
       end
 
-      def put(path, params = {})
-        ZohoHub.connection.put(path, params)
+      def put(path, params = {}, use_zoho_invoice=false)
+        ZohoHub.connection.put(path, params, use_zoho_invoice)
       end
 
-      def delete(path, params = {})
-        ZohoHub.connection.delete(path, params)
+      def delete(path, params = {}, use_zoho_invoice=false)
+        ZohoHub.connection.delete(path, params, use_zoho_invoice)
       end
     end
 
-    def get(path, params = {})
-      self.class.get(path, params)
+    def get(path, params = {}, use_zoho_invoice=false)
+      self.class.get(path, params, use_zoho_invoice)
     end
 
-    def post(path, params = {})
-      self.class.post(path, params)
+    def post(path, params = {}, use_zoho_invoice=false)
+      self.class.post(path, params, use_zoho_invoice)
     end
 
-    def put(path, params = {})
-      self.class.put(path, params)
+    def put(path, params = {}, use_zoho_invoice=false)
+      self.class.put(path, params, use_zoho_invoice)
     end
 
-    def delete(path, params = {})
-      self.class.delete(path, params)
+    def delete(path, params = {}, use_zoho_invoice=false)
+      self.class.delete(path, params, use_zoho_invoice)
     end
   end
 end
