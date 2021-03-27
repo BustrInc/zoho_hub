@@ -166,6 +166,11 @@ module ZohoHub
 
         response
       end
+
+      def use_zoho_invoice?
+        # override method if using zoho invoice with 'true'
+        false
+      end
     end
 
     def initialize(params = {})
@@ -185,14 +190,16 @@ module ZohoHub
              end
 
       response = build_response(body)
-      puts '***** CWIK'
-      puts response.data.to_s
       response.data.first.dig(:details, :id)
     end
 
     def update(params)
       zoho_params = Hash[params.map { |k, v| [attr_to_zoho_key(k), v] }]
-      body = put(File.join(self.class.request_path, id), data: [zoho_params])
+      body = put(
+        File.join(self.class.request_path, id),
+        data: [zoho_params],
+        self.class.use_zoho_invoice?
+      )
 
       build_response(body)
     end

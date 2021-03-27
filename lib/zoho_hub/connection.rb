@@ -28,6 +28,11 @@ module ZohoHub
     attr_accessor :on_refresh_cb
 
     DEFAULT_DOMAIN = 'https://www.zohoapis.eu'
+    
+    # for invoice.zoho.com, not ZohoCRM
+    DEFAULT_INVOICE_DOMAIN = 'https://invoice.zoho.com'
+    DEFAULT_INVOICE_PATH = '/api/v3/'
+
 
     def initialize(access_token:, api_domain: nil, expires_in: 3600, refresh_token: nil)
       @access_token = access_token
@@ -51,14 +56,14 @@ module ZohoHub
       response.body
     end
 
-    def put(path, params = {})
-      if using_zoho_invoice?
+    def put(path, params = {}, use_zoho_invoice=false)
+      if use_zoho_invoice
         params = {'JSONString': params[:data].first.transform_keys!{|k| k.to_s.downcase }.to_json}
         opts = {'Content-Type'=>'application/x-www-form-urlencoded'}
       end
       log "PUT #{path} with #{params}"
 
-      response = with_refresh { adapter.put(path, params, opts) }
+      response = with_refresh { adapter(use_zoho_invoice).put(path, params, opts) }
       response.body
     end
 
@@ -84,11 +89,6 @@ module ZohoHub
     end
 
     private
-
-    def using_zoho_invoice?
-      # using Zoho Invoice (ie. invoice.zoho.com), NOT ZohoCRM
-      @api_domain =~ /invoice\.zoho\.com/
-    end
 
     def with_refresh
       http_response = yield
@@ -116,18 +116,26 @@ module ZohoHub
       Addressable::URI.join(@api_domain, @base_path).to_s
     end
 
+    def zoho_invoice_base_url
+      Addressable::URI.join(
+        DEFAULT_INVOICE_DOMAIN,
+        DEFAILT_INVOICE_PATH
+      )
+    end
+
     # The authorization header that must be added to every request for authorized requests.
     def authorization_header
       { 'Authorization' => "Zoho-oauthtoken #{@access_token}" }
     end
 
-    def adapter
-      Faraday.new(url: base_url) do |conn|
+    def adapter use_zoho_invoice=false
+      url = use_zoho_invoice? ? zoho_invoice_base_url : base_url
+      Faraday.new(url: url) do |conn|
         conn.headers = authorization_header if access_token?
         conn.use FaradayMiddleware::EncodeJson
         conn.use FaradayMiddleware::ParseJson
 
-        if using_zoho_invoice?
+        if use_zoho_invoice
           conn.request :multipart
           conn.request :url_encoded
         end
