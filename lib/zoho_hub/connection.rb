@@ -129,7 +129,7 @@ module ZohoHub
     end
 
     def adapter use_zoho_invoice=false
-      url = use_zoho_invoice? ? zoho_invoice_base_url : base_url
+      url = use_zoho_invoice ? zoho_invoice_base_url : base_url
       Faraday.new(url: url) do |conn|
         conn.headers = authorization_header if access_token?
         conn.use FaradayMiddleware::EncodeJson
