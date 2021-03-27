@@ -52,10 +52,10 @@ module ZohoHub
     end
 
     def put(path, params = {})
-      p = {'JSONString': params[:data].first.transform_keys!{|k| k.to_s.downcase }.to_s}
+      p = {'JSONString': params[:data].first.transform_keys!{|k| k.to_s.downcase }}
       log "PUT #{path} with #{p}"
 
-      response = with_refresh { adapter.put(path, p) }
+      response = with_refresh { adapter.put(path, p, {'Content-Type'=>'application/x-www-form-urlencoded'}) }
       response.body
     end
 
@@ -119,8 +119,8 @@ module ZohoHub
         conn.use FaradayMiddleware::EncodeJson
         conn.use FaradayMiddleware::ParseJson
 
-        conn.request :multipart
-        conn.request :url_encoded
+        #conn.request :multipart
+        #conn.request :url_encoded
 
         conn.response :json, parser_options: { symbolize_names: true }
         conn.response :logger if ZohoHub.configuration.debug?
