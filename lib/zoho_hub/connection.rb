@@ -52,10 +52,13 @@ module ZohoHub
     end
 
     def put(path, params = {})
-      p = {'JSONString': params[:data].first.transform_keys!{|k| k.to_s.downcase }.to_json}
-      log "PUT #{path} with #{p}"
+      if using_zoho_invoice?
+        params = {'JSONString': params[:data].first.transform_keys!{|k| k.to_s.downcase }.to_json}
+        opts = {'Content-Type'=>'application/x-www-form-urlencoded'}
+      end
+      log "PUT #{path} with #{params}"
 
-      response = with_refresh { adapter.put(path, p, {'Content-Type'=>'application/x-www-form-urlencoded'}) }
+      response = with_refresh { adapter.put(path, params, opts) }
       response.body
     end
 
@@ -81,6 +84,11 @@ module ZohoHub
     end
 
     private
+
+    def using_zoho_invoice?
+      # using Zoho Invoice (ie. invoice.zoho.com), NOT ZohoCRM
+      @api_domain =~ /invoice\.zoho\.com/
+    end
 
     def with_refresh
       http_response = yield
@@ -119,8 +127,10 @@ module ZohoHub
         conn.use FaradayMiddleware::EncodeJson
         conn.use FaradayMiddleware::ParseJson
 
-        conn.request :multipart
-        conn.request :url_encoded
+        if using_zoho_invoice?
+          conn.request :multipart
+          conn.request :url_encoded
+        end
 
         conn.response :json, parser_options: { symbolize_names: true }
         conn.response :logger if ZohoHub.configuration.debug?
