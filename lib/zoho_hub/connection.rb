@@ -117,7 +117,7 @@ module ZohoHub
         conn.headers = authorization_header if access_token?
         conn.use FaradayMiddleware::EncodeJson
         conn.use FaradayMiddleware::ParseJson
-        conn.use FaradayMiddleware::Multipart
+        #conn.request :multipart
         conn.response :json, parser_options: { symbolize_names: true }
         conn.response :logger if ZohoHub.configuration.debug?
         conn.adapter Faraday.default_adapter
