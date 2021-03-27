@@ -119,8 +119,8 @@ module ZohoHub
         conn.use FaradayMiddleware::EncodeJson
         conn.use FaradayMiddleware::ParseJson
 
-        #conn.request :multipart
-        #conn.request :url_encoded
+        conn.request :multipart
+        conn.request :url_encoded
 
         conn.response :json, parser_options: { symbolize_names: true }
         conn.response :logger if ZohoHub.configuration.debug?
