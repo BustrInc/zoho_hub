@@ -119,7 +119,7 @@ module ZohoHub
     def zoho_invoice_base_url
       Addressable::URI.join(
         DEFAULT_INVOICE_DOMAIN,
-        DEFAILT_INVOICE_PATH
+        DEFAULT_INVOICE_PATH
       )
     end
 
