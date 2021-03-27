@@ -29,7 +29,7 @@ module ZohoHub
       end
 
       def find(id)
-        body = get(File.join(request_path, id.to_s))
+        body = get(File.join(request_path, id.to_s), {}, use_zoho_invoice?)
         response = build_response(body)
 
         if response.empty?
@@ -57,7 +57,7 @@ module ZohoHub
                    end
         end
 
-        body = get(path, params)
+        body = get(path, params, use_zoho_invoice?)
         response = build_response(body)
 
         data = response.nil? ? [] : response.data
@@ -88,11 +88,11 @@ module ZohoHub
 
       def add_note(id:, title: '', content: '')
         path = File.join(request_path, id, 'Notes')
-        post(path, data: [{ Note_Title: title, Note_Content: content }])
+        post(path, {data: [{ Note_Title: title, Note_Content: content }]}, use_zoho_invoice?)
       end
 
       def all_related(parent_module:, parent_id:)
-        body = get(File.join(parent_module.constantize.request_path, parent_id, request_path))
+        body = get(File.join(parent_module.constantize.request_path, parent_id, request_path),{}, use_zoho_invoice?)
         response = build_response(body)
 
         data = response.nil? ? [] : response.data
@@ -104,7 +104,7 @@ module ZohoHub
         path = File.join(
           parent_module.constantize.request_path, parent_id, request_path, related_id
         )
-        body = put(path, data: data)
+        body = put(path, {data: data}, use_zoho_invoice?)
         build_response(body)
       end
 
@@ -116,7 +116,9 @@ module ZohoHub
 
       def remove_related(parent_module:, parent_id:, related_id:)
         body = delete(
-          File.join(parent_module.constantize.request_path, parent_id, request_path, related_id)
+          File.join(parent_module.constantize.request_path, parent_id, request_path, related_id),
+          {},
+          use_zoho_invoice?
         )
         build_response(body)
       end
@@ -126,7 +128,7 @@ module ZohoHub
           Hash[record.map { |key, value| [attr_to_zoho_key(key), value] }]
         end
 
-        body = put(File.join(request_path), data: zoho_params)
+        body = put(File.join(request_path), {data: zoho_params}, use_zoho_invoice?)
 
         build_response(body)
       end
@@ -136,7 +138,7 @@ module ZohoHub
         params[:per_page] ||= DEFAULT_RECORDS_PER_PAGE
         params[:per_page] = MIN_RECORDS if params[:per_page] < MIN_RECORDS
 
-        body = get(request_path, params)
+        body = get(request_path, params, use_zoho_invoice?)
         response = build_response(body)
 
         data = response.nil? ? [] : response.data
@@ -184,9 +186,9 @@ module ZohoHub
 
     def save
       body = if new_record? # create new record
-               post(self.class.request_path, data: [to_params])
+               post(self.class.request_path, {data: [to_params]}, self.class.use_zoho_invoice?)
              else # update existing record
-               put(File.join(self.class.request_path, id), data: [to_params])
+               put(File.join(self.class.request_path, id), {data: [to_params]}, self.class.use_zoho_invoice?)
              end
 
       response = build_response(body)
@@ -205,14 +207,17 @@ module ZohoHub
     end
 
     def blueprint_transition(transition_id, data = {})
-      body = put(File.join(self.class.request_path, id, 'actions/blueprint'),
-                 blueprint: [{ transition_id: transition_id, data: data }])
+      body = put(
+        File.join(self.class.request_path, id, 'actions/blueprint'),
+        {blueprint: [{ transition_id: transition_id, data: data }]},
+        self.class.use_zoho_invoice?
+      )
 
       build_response(body)
     end
 
     def blueprint_transitions
-      body = get(File.join(self.class.request_path, id, 'actions/blueprint'))
+      body = get(File.join(self.class.request_path, id, 'actions/blueprint'), {}, self.class.use_zoho_invoice?)
       build_response(body)
     end
 

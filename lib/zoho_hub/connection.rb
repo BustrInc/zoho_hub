@@ -42,17 +42,17 @@ module ZohoHub
       @base_path = '/crm/v2/'
     end
 
-    def get(path, params = {})
+    def get(path, params = {}, use_zoho_invoice=false)
       log "GET #{path} with #{params}"
 
-      response = with_refresh { adapter.get(path, params) }
+      response = with_refresh { adapter(use_zoho_invoice).get(path, params) }
       response.body
     end
 
-    def post(path, params = {})
+    def post(path, params = {}, use_zoho_invoice=false)
       log "POST #{path} with #{params}"
 
-      response = with_refresh { adapter.post(path, params) }
+      response = with_refresh { adapter(use_zoho_invoice).post(path, params) }
       response.body
     end
 
@@ -67,10 +67,10 @@ module ZohoHub
       response.body
     end
 
-    def delete(path, params = {})
+    def delete(path, params = {}, use_zoho_invoice=false)
       log "DELETE #{path} with #{params}"
 
-      response = with_refresh { adapter.delete(path, params) }
+      response = with_refresh { adapter(use_zoho_invoice).delete(path, params) }
       response.body
     end
 
