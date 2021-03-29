@@ -192,6 +192,10 @@ module ZohoHub
              end
 
       response = build_response(body)
+      puts "***** CWIK"
+      puts response.to_json
+      puts '******'
+      puts respons.data.to_json
       response.data.first.dig(:details, :id)
     end
 
