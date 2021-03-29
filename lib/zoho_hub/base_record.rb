@@ -192,11 +192,12 @@ module ZohoHub
              end
 
       response = build_response(body)
-      puts "***** CWIK"
-      puts response.to_json
-      puts '******'
-      puts response.data.to_json
-      response.data.first.dig(:details, :id)
+
+      if response.data.first && response.data.first.is_a?(Hash)
+        response.data.first.dig(:details, :id)
+      else
+        response
+      end
     end
 
     def update(params)
