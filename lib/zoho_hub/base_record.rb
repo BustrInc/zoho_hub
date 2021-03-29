@@ -194,6 +194,7 @@ module ZohoHub
       response = build_response(body)
 
       if response.data.first && response.data.first.is_a?(Hash)
+        puts response.data.to_json
         response.data.first.dig(:details, :id)
       else
         response
