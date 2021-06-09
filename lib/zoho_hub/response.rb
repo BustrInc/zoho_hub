@@ -38,6 +38,10 @@ module ZohoHub
       error_code?('RECORD_IN_BLUEPRINT')
     end
 
+    def token_mismatch?
+      error_code?('DOMAIN_TOKEN_MISMATCH')
+    end
+
     def empty?
       @params.empty?
     end

@@ -27,4 +27,7 @@ module ZohoHub
 
   class ZohoAPIError < StandardError
   end
+
+  class DomainTokenMismatch < StandardError
+  end
 end

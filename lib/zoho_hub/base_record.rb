@@ -158,8 +158,7 @@ module ZohoHub
         body.merge!(module_name: request_path.singularize.downcase.to_sym) if body.present?
         response = Response.new(body)
 
-        raise response.to_json
-
+        raise DomainTokenMismatch, response.message if response.token_mismatch?
         raise InvalidTokenError, response.msg if response.invalid_token?
         raise InternalError, response.msg if response.internal_error?
         raise RecordInvalid, response.msg if response.invalid_data?
