@@ -176,8 +176,12 @@ module ZohoHub
     end
 
     def initialize(params = {})
+      puts attributes.to_s.red
+      puts params.to_s.red
       attributes.each do |attr|
         zoho_key = attr_to_zoho_key(attr)
+        puts attr.to_s.red
+        puts zoho_key.to_s.red
         value = params[zoho_key].nil? ? params[attr] : params[zoho_key]
 
         send("#{attr}=", value)
