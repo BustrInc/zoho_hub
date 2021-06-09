@@ -92,6 +92,7 @@ module ZohoHub
       end
 
       def all_related(parent_module:, parent_id:)
+        puts [parent_module.constantize.request_path, parent_id, request_path].to_s.red
         body = get(File.join(parent_module.constantize.request_path, parent_id, request_path),{}, use_zoho_invoice?)
         response = build_response(body)
 
