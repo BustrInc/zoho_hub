@@ -92,7 +92,6 @@ module ZohoHub
       end
 
       def all_related(parent_module:, parent_id:)
-        puts [parent_module.constantize.request_path, parent_id, request_path].to_s.red
         body = get(File.join(parent_module.constantize.request_path, parent_id, request_path),{}, use_zoho_invoice?)
         response = build_response(body)
 
@@ -178,12 +177,8 @@ module ZohoHub
     end
 
     def initialize(params = {})
-      puts attributes.to_s.red
-      puts params.to_s.red
       attributes.each do |attr|
         zoho_key = attr_to_zoho_key(attr)
-        puts attr.to_s.red
-        puts zoho_key.to_s.red
         value = params[zoho_key].nil? ? params[attr] : params[zoho_key]
 
         send("#{attr}=", value)
