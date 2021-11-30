@@ -48,7 +48,12 @@ module ZohoHub
           return attribute_translation[attr_name.to_sym]
         end
 
-        attr_name.to_s.split('_').map(&:capitalize).join('_').to_sym
+        is_capitalized = attr_name.to_s[0].upcase == attr_name.to_s[0]
+        if !is_capitalized || attr_name.to_s.include?('_')
+          attr_name.to_s.split('_').map(&:capitalize).join('_').to_sym
+        else
+          attr_name.to_sym
+        end
       end
 
       def zoho_key_translation
