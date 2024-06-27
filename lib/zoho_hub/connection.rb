@@ -39,7 +39,7 @@ module ZohoHub
       @expires_in = expires_in
       @api_domain = api_domain || self.class.infer_api_domain
       @refresh_token ||= refresh_token # do not overwrite if it's already set
-      @base_path = '/crm/v3/'
+      @base_path = '/crm/v2/'
     end
 
     def get(path, params = {}, use_zoho_invoice=false)

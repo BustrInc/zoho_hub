@@ -177,15 +177,8 @@ module ZohoHub
     end
 
     def initialize(params = {})
-      puts "CWIK zoho_hub debug"
-      puts attributes.to_s
-      puts params.to_s
       attributes.each do |attr|
         zoho_key = attr_to_zoho_key(attr)
-        puts attr.to_s
-        puts zoho_key.to_s
-        puts params[zoho_key].to_s
-        puts params[attr].to_s
         value = params[zoho_key].nil? ? params[attr] : params[zoho_key]
 
         send("#{attr}=", value)
